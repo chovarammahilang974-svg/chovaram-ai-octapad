@@ -50,3 +50,79 @@ async function analyze() {
   }
 }
   
+
+// CHOVARAM AI OCTAPAD - DJ SOUND ENGINE
+
+let padAudioContext;
+
+function playPad(sound) {
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
+
+  if (!padAudioContext) {
+    padAudioContext = new AudioContextClass();
+  }
+
+  if (padAudioContext.state === "suspended") {
+    padAudioContext.resume();
+  }
+
+  const ctx = padAudioContext;
+  const now = ctx.currentTime;
+
+  function tone(freq, endFreq, duration, type, volume) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, now);
+    osc.frequency.exponentialRampToValueAtTime(
+      Math.max(1, endFreq), now + duration
+    );
+
+    gain.gain.setValueAtTime(volume, now);
+    gain.gain.exponentialRampToValueAtTime(
+      0.001, now + duration
+    );
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + duration);
+  }
+
+  if (sound === "kick") {
+    tone(150, 40, 0.35, "sine", 0.9);
+  }
+
+  if (sound === "bass") {
+    tone(90, 45, 0.5, "triangle", 0.8);
+  }
+
+  if (sound === "dhol") {
+    tone(110, 55, 0.22, "sine", 0.8);
+    tone(180, 100, 0.12, "triangle", 0.35);
+  }
+
+  if (sound === "tasha") {
+    tone(420, 160, 0.16, "triangle", 0.8);
+  }
+
+  if (sound === "nagada") {
+    tone(100, 35, 0.5, "sine", 1);
+  }
+
+  if (sound === "clap") {
+    tone(1000, 300, 0.08, "square", 0.5);
+  }
+
+  if (sound === "snare") {
+    tone(220, 100, 0.18, "triangle", 0.7);
+  }
+
+  if (sound === "cymbal") {
+    tone(8000, 3000, 0.3, "sawtooth", 0.25);
+  }
+}
+  
