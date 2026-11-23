@@ -5,7 +5,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chovaram AI Octapad</title>
-<style>
+
+.pad-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 25px;
+}
+.dj-pad {
+  min-height: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  border: 2px solid #ffffff44;
+  border-radius: 16px;
+  color: white;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.dj-pad:active {
+  transform: scale(0.94);
+  filter: brightness(1.4);
+}
+  <style>
 body {
   background: #10121c;
   color: white;
@@ -50,6 +71,34 @@ button {
 <button onclick="analyze()">🎵 Analyze Song</button>
 
 <p id="status">गाना अपलोड करने के लिए तैयार हैं।</p>
+
+<h2>🎧 DJ SOUND PADS</h2>
+
+<div class="pad-grid">
+  <button class="dj-pad" style="background:#e53935"
+  onclick="playPad('kick')">🥁 KICK</button>
+
+  <button class="dj-pad" style="background:#8e24aa"
+  onclick="playPad('dhol')">🪘 DHOL</button>
+
+  <button class="dj-pad" style="background:#3949ab"
+  onclick="playPad('bass')">🔊 BASS</button>
+
+  <button class="dj-pad" style="background:#00897b"
+  onclick="playPad('tasha')">🎶 TASHA</button>
+
+  <button class="dj-pad" style="background:#ef6c00"
+  onclick="playPad('nagada')">🥁 NAGADA</button>
+
+  <button class="dj-pad" style="background:#6d4c41"
+  onclick="playPad('clap')">👏 CLAP</button>
+
+  <button class="dj-pad" style="background:#546e7a"
+  onclick="playPad('snare')">🎵 SNARE</button>
+
+  <button class="dj-pad" style="background:#c0a000"
+  onclick="playPad('cymbal')">🔔 CYMBAL</button>
+</div>
 </div>
 
 <script src="beat—engine.js"></script>
