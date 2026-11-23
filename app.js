@@ -126,3 +126,47 @@ function playPad(sound) {
   }
 }
   
+
+// CHOVARAM AUTO BEAT SYSTEM
+
+let autoBeatTimer = null;
+let autoBeatIndex = 0;
+
+function startAutoBeat() {
+  const pattern = window.currentBeatPattern;
+  const bpm = window.currentSongBpm;
+
+  if (!pattern || !pattern.length || !bpm) {
+    alert("पहले गाना अपलोड करके Analyze Song दबाएँ।");
+    return;
+  }
+
+  stopAutoBeat();
+  autoBeatIndex = 0;
+
+  const interval = 60000 / bpm;
+
+  function playNextBeat() {
+    const beat = pattern[autoBeatIndex];
+
+    if (beat) {
+      playPad(beat.sound);
+    }
+
+    autoBeatIndex = (autoBeatIndex + 1) % pattern.length;
+  }
+
+  playNextBeat();
+  autoBeatTimer = setInterval(playNextBeat, interval);
+
+  setStatus("🎵 Auto Beat चालू है!");
+}
+
+function stopAutoBeat() {
+  if (autoBeatTimer !== null) {
+    clearInterval(autoBeatTimer);
+    autoBeatTimer = null;
+  }
+
+  setStatus("⏹ Auto Beat बंद है।");
+}
