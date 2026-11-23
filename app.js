@@ -1,4 +1,7 @@
 
+let recordingDestination = null;
+let mediaRecorder = null;
+let recordedChunks = [];
 let audioBuffer = null;
 let samples = [];
 
@@ -87,7 +90,12 @@ function playPad(sound) {
 
     osc.connect(gain);
     gain.connect(ctx.destination);
-
+if (recordingDestination) {
+  gain.connect(recordingDestination);
+}
+    if (recordingDestination) {
+  gain.connect(recordingDestination);
+}
     osc.start(now);
     osc.stop(now + duration);
   }
@@ -169,4 +177,57 @@ function stopAutoBeat() {
   }
 
   setStatus("⏹ Auto Beat बंद है।");
+}
+
+function startRecording() {
+  const ctx = padAudioContext;
+
+  if (!ctx) {
+    alert("पहले किसी DJ पैड को दबाएँ।");
+    return;
+  }
+
+  if (!window.MediaRecorder) {
+    alert("आपका ब्राउजर रिकॉर्डिंग सपोर्ट नहीं करता।");
+    return;
+  }
+
+  recordingDestination = ctx.createMediaStreamDestination();
+  recordedChunks = [];
+
+  mediaRecorder = new MediaRecorder(
+    recordingDestination.stream
+  );
+
+  mediaRecorder.ondataavailable = (event) => {
+    if (event.data.size > 0) {
+      recordedChunks.push(event.data);
+    }
+  };
+
+  mediaRecorder.onstop = () => {
+    const blob = new Blob(recordedChunks, {
+      type: "audio/webm"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "Chovaram-DJ-Recording.webm";
+    link.click();
+
+    URL.revokeObjectURL(url);
+    recordingDestination = null;
+  };
+
+  mediaRecorder.start();
+  alert("🔴 Recording चालू है!");
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state === "recording") {
+    mediaRecorder.stop();
+    alert("Recording सेव हो रही है!");
+  }
 }
