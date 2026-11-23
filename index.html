@@ -6,120 +6,373 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chovaram AI Octapad</title>
 
-.pad-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 25px;
+<style>
+* {
+  box-sizing: border-box;
 }
-.dj-pad {
-  min-height: 100px;
-  font-size: 20px;
-  font-weight: bold;
-  border: 2px solid #ffffff44;
-  border-radius: 16px;
-  color: white;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.dj-pad:active {
-  transform: scale(0.94);
-  filter: brightness(1.4);
-}
-  <style>
+
 body {
-  background: #10121c;
+  margin: 0;
+  padding: 18px 10px;
+  background: #090b0e;
   color: white;
   font-family: Arial, sans-serif;
+}
+
+h1 {
   text-align: center;
-  padding: 20px;
+  font-size: 25px;
+  margin: 10px 0 25px;
 }
+
 .container {
-  max-width: 500px;
+  max-width: 850px;
   margin: auto;
-  background: #202538;
-  padding: 20px;
-  border-radius: 18px;
 }
-input, button {
-  padding: 14px;
-  margin: 10px 0;
-  width: 100%;
-  box-sizing: border-box;
+
+/* OCTAPAD MACHINE */
+
+.machine {
+  background: linear-gradient(145deg,#292b2e,#050607 70%);
+  border: 3px solid #444;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 12px 35px #000, inset 0 1px 3px #777;
+}
+
+/* LED LIGHTS */
+
+.led-row {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 25px;
+  padding: 0 20px;
+  margin: 0 10px 10px;
+}
+
+.led {
+  height: 5px;
   border-radius: 10px;
+  background: #aaa;
+  box-shadow: 0 0 8px currentColor;
 }
-button {
-  background: #16a34a;
+
+.led:nth-child(2) {background: orange;color:orange;}
+.led:nth-child(3) {background: #00ed8a;color:#00ed8a;}
+.led:nth-child(4) {background: #ef5264;color:#ef5264;}
+
+/* EIGHT REALISTIC PADS */
+
+.pad-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 7px;
+  background: #090a0b;
+  padding: 7px;
+  border: 2px solid #555;
+  border-radius: 12px;
+  box-shadow: inset 0 3px 10px #000;
+}
+
+.dj-pad {
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  border: 2px solid #111;
+  border-radius: 9px;
+  background: linear-gradient(145deg,#414141,#202020 55%,#101010);
+  box-shadow:
+    2px 3px 5px #000,
+    inset 1px 1px 3px #777,
+    inset -2px -3px 5px #000;
+  color: #aaa;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: .06s;
+}
+
+.dj-pad:active {
+  transform: scale(.96);
+  background: #555;
+  box-shadow: inset 0 0 15px #000;
   color: white;
-  border: none;
-  font-size: 17px;
 }
+
+/* BOTTOM CONTROL PANEL */
+
+.control-panel {
+  display: grid;
+  grid-template-columns: 85px 1fr 85px;
+  gap: 10px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 12px 5px;
+  background: linear-gradient(180deg,#151719,#030405);
+  border-top: 2px solid #555;
+  border-radius: 8px;
+}
+
+.knob-area {
+  text-align: center;
+}
+
+.knob {
+  width: 57px;
+  height: 57px;
+  margin: auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%,#ddd,#777 40%,#222 75%);
+  border: 3px solid #080808;
+  box-shadow: 0 3px 7px #000,inset 0 0 5px #fff;
+  position: relative;
+}
+
+.knob:after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 16px;
+  background: white;
+  top: 5px;
+  left: 25px;
+}
+
+.knob-label {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 5px;
+}
+
+.lcd {
+  min-height: 75px;
+  background: #06113b;
+  border: 2px solid #52669a;
+  border-radius: 4px;
+  padding: 10px;
+  color: #42aaff;
+  font-family: monospace;
+  text-align: left;
+  box-shadow: inset 0 0 12px #000;
+}
+
+.lcd h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.lcd p {
+  font-size: 11px;
+  margin: 0;
+}
+
+.control-buttons {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 5px;
+  margin-top: 12px;
+}
+
+.control-buttons button {
+  background: linear-gradient(#444,#171717);
+  color: #ddd;
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 8px 2px;
+  font-size: 9px;
+}
+
+/* MACHINE FUNCTIONS */
+
+.function-panel {
+  margin-top: 18px;
+  padding: 15px;
+  background: #17191d;
+  border: 1px solid #444;
+  border-radius: 9px;
+}
+
+.function-panel h2 {
+  text-align: center;
+  font-size: 19px;
+}
+
+input[type=file] {
+  width: 100%;
+  padding: 12px;
+  background: #292c32;
+  color: white;
+  border-radius: 6px;
+  margin: 10px 0;
+}
+
+.action {
+  width: 100%;
+  padding: 14px;
+  margin: 6px 0;
+  border: 1px solid #777;
+  border-radius: 6px;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  background: linear-gradient(#444,#171717);
+  cursor: pointer;
+}
+
+.action:active {
+  filter: brightness(1.5);
+}
+
+.green {border-color:#159b56;}
+.red {border-color:#d32f2f;}
+.blue {border-color:#2868bd;}
+
 #status {
-  white-space: pre-line;
   color: #4ade80;
+  white-space: pre-line;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media(max-width:450px) {
+  body {padding: 10px 5px;}
+  .machine {padding: 9px;}
+  .pad-grid {gap: 5px;padding: 5px;}
+  .dj-pad {border-radius: 7px;font-size: 9px;}
+  .control-panel {
+    grid-template-columns: 55px 1fr 55px;
+    gap: 5px;
+  }
+  .knob {width: 43px;height: 43px;}
+  .knob:after {left:18px;height:12px;}
+  .lcd {min-height:65px;padding:7px;}
+  .led-row {gap:12px;}
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
-<h1>🥁 Chovaram AI Octapad</h1>
-<p>अपना गाना अपलोड करें</p>
+
+<h1>🥁 CHOVARAM AI OCTAPAD</h1>
+
+<div class="machine">
+
+  <div class="led-row">
+    <div class="led"></div>
+    <div class="led"></div>
+    <div class="led"></div>
+    <div class="led"></div>
+  </div>
+
+  <div class="pad-grid">
+
+    <button class="dj-pad" onclick="playPad('kick')">PAD 1</button>
+    <button class="dj-pad" onclick="playPad('dhol')">PAD 2</button>
+    <button class="dj-pad" onclick="playPad('bass')">PAD 3</button>
+    <button class="dj-pad" onclick="playPad('tasha')">PAD 4</button>
+
+    <button class="dj-pad" onclick="playPad('nagada')">PAD 5</button>
+    <button class="dj-pad" onclick="playPad('clap')">PAD 6</button>
+    <button class="dj-pad" onclick="playPad('snare')">PAD 7</button>
+    <button class="dj-pad" onclick="playPad('cymbal')">PAD 8</button>
+
+  </div>
+
+  <div class="led-row" style="margin-top:10px;">
+    <div class="led"></div>
+    <div class="led"></div>
+    <div class="led"></div>
+    <div class="led"></div>
+  </div>
+
+  <div class="control-panel">
+
+    <div class="knob-area">
+      <div class="knob"></div>
+      <div class="knob-label">VOLUME</div>
+    </div>
+
+    <div class="lcd">
+      <h3>CHOVARAM AI</h3>
+      <p id="lcd-status">OCTAPAD READY</p>
+      <p>USER KIT : 001</p>
+    </div>
+
+    <div class="knob-area">
+      <div class="knob"></div>
+      <div class="knob-label">SELECT</div>
+    </div>
+
+  </div>
+
+  <div class="control-buttons">
+    <button>MENU</button>
+    <button>ENTER</button>
+    <button>EXIT</button>
+    <button>CLICK</button>
+    <button>SONG</button>
+    <button>KIT</button>
+    <button>SHIFT</button>
+    <button>EDIT</button>
+  </div>
+
+</div>
+
+<!-- SONG UPLOAD -->
+
+<div class="function-panel">
+
+<h2>🎵 SONG ANALYZER</h2>
 
 <input type="file" id="song" accept="audio/*">
 
-<button onclick="analyze()">🎵 Analyze Song</button>
+<button class="action green" onclick="analyze()">
+🎵 ANALYZE SONG
+</button>
 
 <p id="status">गाना अपलोड करने के लिए तैयार हैं।</p>
 
-<h2>🎧 DJ SOUND PADS</h2>
-
-<div class="pad-grid">
-  <button class="dj-pad" style="background:#e53935"
-  onclick="playPad('kick')">🥁 KICK</button>
-
-  <button class="dj-pad" style="background:#8e24aa"
-  onclick="playPad('dhol')">🪘 DHOL</button>
-
-  <button class="dj-pad" style="background:#3949ab"
-  onclick="playPad('bass')">🔊 BASS</button>
-
-  <button class="dj-pad" style="background:#00897b"
-  onclick="playPad('tasha')">🎶 TASHA</button>
-
-  <button class="dj-pad" style="background:#ef6c00"
-  onclick="playPad('nagada')">🥁 NAGADA</button>
-
-  <button class="dj-pad" style="background:#6d4c41"
-  onclick="playPad('clap')">👏 CLAP</button>
-
-  <button class="dj-pad" style="background:#546e7a"
-  onclick="playPad('snare')">🎵 SNARE</button>
-
-  <button class="dj-pad" style="background:#c0a000"
-  onclick="playPad('cymbal')">🔔 CYMBAL</button>
 </div>
-<button onclick="startAutoBeat()">
+
+<!-- AUTO BEAT -->
+
+<div class="function-panel">
+
+<h2>🎧 AUTO BEAT CONTROL</h2>
+
+<button class="action green" onclick="startAutoBeat()">
 ▶ START AUTO BEAT
 </button>
 
-<button onclick="stopAutoBeat()"
-style="background:#dc2626">
+<button class="action red" onclick="stopAutoBeat()">
 ⏹ STOP AUTO BEAT
-<button onclick="startRecording()"
-style="background:#e53935">
+</button>
+
+</div>
+
+<!-- RECORDING -->
+
+<div class="function-panel">
+
+<h2>🔴 RECORDING CONTROL</h2>
+
+<button class="action red" onclick="startRecording()">
 🔴 START RECORDING
 </button>
 
-<button onclick="stopRecording()"
-style="background:#1565c0">
+<button class="action blue" onclick="stopRecording()">
 ⏹ STOP & SAVE RECORDING
 </button>
-</button>
+
 </div>
 
-<script src="beat—engine.js"></script>
+</div>
+
+<script src="beat-engine.js"></script>
 <script src="app.js"></script>
 
 </body>
-</html>
+  </html>
+  
